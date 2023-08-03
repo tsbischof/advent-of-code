@@ -1,7 +1,7 @@
 use std::fs;
 
 fn main() {
-    let data = fs::read_to_string("adventofcode.com_2022_day_1_input.txt").expect("Unable to read file");
+    let data = fs::read_to_string("input.txt").expect("Unable to read file");
     let elves = data.split("\n\n");
     let mut totals : Vec<u64> = elves.map(
         |elf| elf
