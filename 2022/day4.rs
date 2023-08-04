@@ -1,5 +1,5 @@
-use itertools::Itertools;
 use crate::aoc;
+use itertools::Itertools;
 
 #[derive(Debug, PartialEq, Eq)]
 struct Range<T> {
@@ -16,10 +16,10 @@ impl<T: std::cmp::PartialOrd + std::str::FromStr> Range<T> {
     }
 
     fn overlaps(self: &Range<T>, other: &Range<T>) -> bool {
-        (self.start <= other.start && other.start <= self.stop) ||
-            (self.start <= other.stop && other.stop <= self.stop) ||
-            (other.start <= self.start && self.start <= other.stop) ||
-            (other.start <= self.stop && self.stop <= other.stop)
+        (self.start <= other.start && other.start <= self.stop)
+            || (self.start <= other.stop && other.stop <= self.stop)
+            || (other.start <= self.start && self.start <= other.stop)
+            || (other.start <= self.stop && self.stop <= other.stop)
     }
 
     fn from_str(text: &str) -> Result<Self, ParsePointError> {
@@ -27,7 +27,10 @@ impl<T: std::cmp::PartialOrd + std::str::FromStr> Range<T> {
         let start = start_raw.parse::<T>().map_err(|_| ParsePointError)?;
         let stop = stop_raw.parse::<T>().map_err(|_| ParsePointError)?;
 
-        Ok(Range{ start: start, stop: stop })
+        Ok(Range {
+            start: start,
+            stop: stop,
+        })
     }
 }
 
@@ -44,9 +47,12 @@ pub fn main(path: &str) {
         })
         .collect();
 
-    let contained : Vec<bool> = pairs.iter().map(|(a,b)| a.within(b) || b.within(a)).collect();
+    let contained: Vec<bool> = pairs
+        .iter()
+        .map(|(a, b)| a.within(b) || b.within(a))
+        .collect();
     println!("{}", contained.iter().filter(|b| **b).count());
 
-    let overlapped : Vec<bool> = pairs.iter().map(|(a,b)| a.overlaps(b)).collect();
+    let overlapped: Vec<bool> = pairs.iter().map(|(a, b)| a.overlaps(b)).collect();
     println!("{}", overlapped.iter().filter(|b| **b).count());
 }

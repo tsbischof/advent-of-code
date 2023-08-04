@@ -1,6 +1,6 @@
-use std::iter::FromIterator;
-use std::collections::HashSet;
 use itertools::Itertools;
+use std::collections::HashSet;
+use std::iter::FromIterator;
 
 use crate::aoc;
 
@@ -13,8 +13,8 @@ fn split_compartments(sack: &str) -> Vec<&str> {
 }
 
 fn same_types(left: &str, right: &str) -> Vec<char> {
-    let mut l : Vec<char> = left.chars().collect();
-    let mut r : Vec<char> = right.chars().collect();
+    let mut l: Vec<char> = left.chars().collect();
+    let mut r: Vec<char> = right.chars().collect();
 
     l.sort();
     r.sort();
@@ -38,17 +38,15 @@ fn same_types(left: &str, right: &str) -> Vec<char> {
 }
 
 fn priority(elem: char) -> usize {
-    let alphabet = String::from_utf8(
-        (b'a'..=b'z').chain(b'A'..=b'Z').collect()
-    ).unwrap();
+    let alphabet = String::from_utf8((b'a'..=b'z').chain(b'A'..=b'Z').collect()).unwrap();
     alphabet.chars().position(|x| x == elem).unwrap() + 1
 }
 
 pub fn main(path: &str) {
     let data = aoc::load_data(path);
-    let sacks : Vec<&str> = data.split("\n").collect();
+    let sacks: Vec<&str> = data.split("\n").collect();
 
-    let sames : Vec<Vec<char>> = sacks
+    let sames: Vec<Vec<char>> = sacks
         .iter()
         .filter(|x| !x.is_empty())
         .map(|sack| {
@@ -60,32 +58,38 @@ pub fn main(path: &str) {
         })
         .collect();
 
-    let distinct_priority : Vec<usize> = sames
+    let distinct_priority: Vec<usize> = sames
         .iter()
         .map(|x| {
-            let unique : HashSet<&char> = HashSet::from_iter(x);
+            let unique: HashSet<&char> = HashSet::from_iter(x);
             unique.iter().map(|c| priority(**c)).sum::<usize>()
         })
         .collect();
 
     println!("{}", distinct_priority.iter().sum::<usize>());
 
-    let shared_elem : Vec<char> = sacks
+    let shared_elem: Vec<char> = sacks
         .iter()
         .filter(|x| !x.is_empty())
         .chunks(3)
         .into_iter()
         .map(|x| {
-            let elems : Vec<&str> = x.map(|y| *y).collect();
-            let a : HashSet<char> = HashSet::from_iter(elems[0].chars());
-            let b : HashSet<char> = HashSet::from_iter(elems[1].chars());
-            let c : HashSet<char> = HashSet::from_iter(elems[2].chars());
-            let sets = [&b,&c];
-            
-            let shared : Vec<&char> = a.iter().filter(|x| sets.iter().all(|y| y.contains(x))).collect();
+            let elems: Vec<&str> = x.map(|y| *y).collect();
+            let a: HashSet<char> = HashSet::from_iter(elems[0].chars());
+            let b: HashSet<char> = HashSet::from_iter(elems[1].chars());
+            let c: HashSet<char> = HashSet::from_iter(elems[2].chars());
+            let sets = [&b, &c];
+
+            let shared: Vec<&char> = a
+                .iter()
+                .filter(|x| sets.iter().all(|y| y.contains(x)))
+                .collect();
             *shared[0]
         })
         .collect();
 
-    println!("{}", shared_elem.iter().map(|c| priority(*c)).sum::<usize>());
+    println!(
+        "{}",
+        shared_elem.iter().map(|c| priority(*c)).sum::<usize>()
+    );
 }
