@@ -12,7 +12,7 @@ pub fn main(data_path: &str) {
     totals.sort();
     totals.reverse();
 
-    println!("max: {}", totals.first().expect("empty"));
-    println!("top3: {}", totals[0..=2].iter().sum::<u64>())
+    println!("{}", totals.first().expect("empty"));
+    println!("{}", totals[0..=2].iter().sum::<u64>())
 }
 

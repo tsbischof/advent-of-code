@@ -87,5 +87,5 @@ pub fn main(path: &str) {
         })
         .collect();
 
-    println!("shared: {}", shared_elem.iter().map(|c| priority(*c)).sum::<usize>());
+    println!("{}", shared_elem.iter().map(|c| priority(*c)).sum::<usize>());
 }
