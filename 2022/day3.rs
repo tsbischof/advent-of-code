@@ -1,8 +1,8 @@
-use std::env;
 use std::iter::FromIterator;
-use std::fs;
 use std::collections::HashSet;
 use itertools::Itertools;
+
+use crate::aoc;
 
 fn split_compartments(sack: &str) -> Vec<&str> {
     let mid = sack.len() / 2;
@@ -44,11 +44,8 @@ fn priority(elem: char) -> usize {
     alphabet.chars().position(|x| x == elem).unwrap() + 1
 }
 
-fn main() {
-    let args: Vec<String> = env::args().collect();
-    let data_path = if args.len() == 1 { "input.txt" } else { &args[1] };
-
-    let data = fs::read_to_string(data_path).expect("could not read input.xt");
+pub fn main(path: &str) {
+    let data = aoc::load_data(path);
     let sacks : Vec<&str> = data.split("\n").collect();
 
     let sames : Vec<Vec<char>> = sacks

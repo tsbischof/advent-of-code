@@ -1,5 +1,5 @@
 [package]
-name = "day3"
+name = "advent-of-code-2022"
 version = "0.1.0"
 edition = "2021"
 
@@ -9,5 +9,5 @@ edition = "2021"
 itertools = {}
 
 [[bin]]
-name = "day3"
-path = "main.rs"
+name = "aoc"
+path = "aoc.rs"

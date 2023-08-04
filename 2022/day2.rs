@@ -1,4 +1,4 @@
-use std::fs;
+use crate::aoc;
 
 fn round_score(them: &str, us: &str) -> i32 {
     let pick_score = match us {
@@ -55,8 +55,8 @@ fn second_strat<'a>(them: &'a str, us: &str) -> &'a str {
     }
 }
 
-fn main() {
-    let data = fs::read_to_string("input.txt").expect("cannot read input.txt");
+pub fn main(path: &str) {
+    let data = aoc::load_data(path);
     let rounds : Vec<&str> = data.split("\n").collect();
     let scores : Vec<i32> = rounds
         .iter()
@@ -80,3 +80,4 @@ fn main() {
     .collect();
     println!("{}", scores.iter().sum::<i32>());
 }
+
