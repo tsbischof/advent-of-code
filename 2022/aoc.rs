@@ -4,6 +4,7 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 
 mod aoc {
     use std::fs;
@@ -27,6 +28,7 @@ fn main() {
         "2" => day2::main(data_path),
         "3" => day3::main(data_path),
         "4" => day4::main(data_path),
+        "5" => day5::main(data_path),
         _ => println!("could not find day {}", day),
     }
 }
