@@ -35,6 +35,7 @@ fn main() {
         ("2022", "3") => cast_str(aoc2022::day3::main(data_path)),
         ("2022", "4") => cast_str(aoc2022::day4::main(data_path)),
         ("2022", "5") => cast_str(aoc2022::day5::main(data_path)),
+        ("2022", "6") => cast_str(aoc2022::day6::main(data_path)),
         _ => ("".to_string(), "".to_string()),
     };
     if !part1.is_empty() || !part2.is_empty() {

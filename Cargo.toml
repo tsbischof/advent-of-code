@@ -6,8 +6,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-itertools = { version = ">=0.11" }
-regex = { version = ">=1.9" }
+itertools = { version = "0.11" }
+regex = { version = "1.9.1" }
+iterwindows = { version = "0.3.0"}
 
 [[bin]]
 name = "aoc"
