@@ -1,5 +1,5 @@
 [package]
-name = "advent-of-code-2022"
+name = "advent-of-code"
 version = "0.1.0"
 edition = "2021"
 
@@ -11,4 +11,4 @@ regex = { version = ">=1.9" }
 
 [[bin]]
 name = "aoc"
-path = "aoc.rs"
+path = "src/aoc.rs"

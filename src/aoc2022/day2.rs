@@ -1,12 +1,10 @@
-use crate::aoc;
-
 #[cfg(test)]
 mod tests {
-    use crate::day2;
+    use crate::aoc2022::day2;
 
     #[test]
     fn test_main() {
-        let (part1, part2) = day2::main("day2/input.txt");
+        let (part1, part2) = day2::main(&crate::default_path(2022, 2));
         assert_eq!(part1, 11841);
         assert_eq!(part2, 13022);
     }
@@ -68,7 +66,7 @@ fn second_strat<'a>(them: &'a str, us: &str) -> &'a str {
 }
 
 pub fn main(path: &str) -> (i32, i32) {
-    let data = aoc::load_data(path);
+    let data = crate::load_data(path);
     let rounds: Vec<&str> = data.split('\n').collect();
     let scores: Vec<i32> = rounds
         .iter()

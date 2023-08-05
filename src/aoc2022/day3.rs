@@ -3,15 +3,13 @@ use std::cmp::Ordering;
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
-use crate::aoc;
-
 #[cfg(test)]
 mod tests {
-    use crate::day3;
+    use crate::aoc2022::day3;
 
     #[test]
     fn test_main() {
-        let (part1, part2) = day3::main("day3/input.txt");
+        let (part1, part2) = day3::main(&crate::default_path(2022, 3));
         assert_eq!(part1, 7997);
         assert_eq!(part2, 2545);
     }
@@ -57,7 +55,7 @@ fn priority(elem: char) -> usize {
 }
 
 pub fn main(path: &str) -> (usize, usize) {
-    let data = aoc::load_data(path);
+    let data = crate::load_data(path);
     let sacks: Vec<&str> = data.split('\n').collect();
 
     let sames: Vec<Vec<char>> = sacks

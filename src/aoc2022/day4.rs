@@ -1,20 +1,19 @@
-use crate::aoc;
 use itertools::Itertools;
 
 #[cfg(test)]
 mod tests {
-    use crate::day4;
+    use crate::aoc2022::day4;
 
     #[test]
     fn test_main() {
-        let (part1, part2) = day4::main("day4/input.txt");
+        let (part1, part2) = day4::main(&crate::default_path(2022, 4));
         assert_eq!(part1, 498);
         assert_eq!(part2, 859);
     }
 
     #[test]
     fn test_main_sample() {
-        let (part1, part2) = day4::main("day4/sample.txt");
+        let (part1, part2) = day4::main(&crate::sample_path(2022, 4));
         assert_eq!(part1, 2);
         assert_eq!(part2, 4);
     }
@@ -51,7 +50,7 @@ impl<T: std::cmp::PartialOrd + std::str::FromStr> Range<T> {
 }
 
 pub fn main(path: &str) -> (usize, usize) {
-    let data = aoc::load_data(path);
+    let data = crate::load_data(path);
     let pairs : Vec<(Range<u64>, Range<u64>)> = data
         .split('\n')
         .filter(|x| !x.is_empty())
