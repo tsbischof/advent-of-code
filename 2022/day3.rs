@@ -1,15 +1,25 @@
 use itertools::Itertools;
+use std::cmp::Ordering;
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
 use crate::aoc;
 
+#[cfg(test)]
+mod tests {
+    use crate::day3;
+
+    #[test]
+    fn test_main() {
+        let (part1, part2) = day3::main("day3/input.txt");
+        assert_eq!(part1, 7997);
+        assert_eq!(part2, 2545);
+    }
+}
+
 fn split_compartments(sack: &str) -> Vec<&str> {
     let mid = sack.len() / 2;
-    let mut c = Vec::new();
-    c.push(&sack[..mid]);
-    c.push(&sack[mid..]);
-    c
+    vec![&sack[..mid], &sack[mid..]]
 }
 
 fn same_types(left: &str, right: &str) -> Vec<char> {
@@ -24,14 +34,18 @@ fn same_types(left: &str, right: &str) -> Vec<char> {
     let mut overlap = Vec::new();
 
     while li < l.len() && ri < r.len() {
-        if l[li] == r[ri] {
-            overlap.push(l[li]);
-            li += 1;
-            ri += 1;
-        } else if l[li] > r[ri] {
-            ri += 1;
-        } else {
-            li += 1;
+        match l[li].cmp(&r[ri]) {
+            Ordering::Less => {
+                li += 1;
+            }
+            Ordering::Equal => {
+                overlap.push(l[li]);
+                li += 1;
+                ri += 1;
+            }
+            Ordering::Greater => {
+                ri += 1;
+            }
         }
     }
     overlap
@@ -42,9 +56,9 @@ fn priority(elem: char) -> usize {
     alphabet.chars().position(|x| x == elem).unwrap() + 1
 }
 
-pub fn main(path: &str) {
+pub fn main(path: &str) -> (usize, usize) {
     let data = aoc::load_data(path);
-    let sacks: Vec<&str> = data.split("\n").collect();
+    let sacks: Vec<&str> = data.split('\n').collect();
 
     let sames: Vec<Vec<char>> = sacks
         .iter()
@@ -53,8 +67,7 @@ pub fn main(path: &str) {
             let compartments = split_compartments(sack);
             let left = compartments[0];
             let right = compartments[1];
-            let same = same_types(left, right);
-            same
+            same_types(left, right)
         })
         .collect();
 
@@ -66,7 +79,7 @@ pub fn main(path: &str) {
         })
         .collect();
 
-    println!("{}", distinct_priority.iter().sum::<usize>());
+    let part1 = distinct_priority.iter().sum::<usize>();
 
     let shared_elem: Vec<char> = sacks
         .iter()
@@ -74,7 +87,7 @@ pub fn main(path: &str) {
         .chunks(3)
         .into_iter()
         .map(|x| {
-            let elems: Vec<&str> = x.map(|y| *y).collect();
+            let elems: Vec<&str> = x.copied().collect();
             let a: HashSet<char> = HashSet::from_iter(elems[0].chars());
             let b: HashSet<char> = HashSet::from_iter(elems[1].chars());
             let c: HashSet<char> = HashSet::from_iter(elems[2].chars());
@@ -88,8 +101,6 @@ pub fn main(path: &str) {
         })
         .collect();
 
-    println!(
-        "{}",
-        shared_elem.iter().map(|c| priority(*c)).sum::<usize>()
-    );
+    let part2 = shared_elem.iter().map(|c| priority(*c)).sum::<usize>();
+    (part1, part2)
 }

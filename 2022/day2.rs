@@ -1,5 +1,17 @@
 use crate::aoc;
 
+#[cfg(test)]
+mod tests {
+    use crate::day2;
+
+    #[test]
+    fn test_main() {
+        let (part1, part2) = day2::main("day2/input.txt");
+        assert_eq!(part1, 11841);
+        assert_eq!(part2, 13022);
+    }
+}
+
 fn round_score(them: &str, us: &str) -> i32 {
     let pick_score = match us {
         "X" => 1,
@@ -55,28 +67,30 @@ fn second_strat<'a>(them: &'a str, us: &str) -> &'a str {
     }
 }
 
-pub fn main(path: &str) {
+pub fn main(path: &str) -> (i32, i32) {
     let data = aoc::load_data(path);
-    let rounds: Vec<&str> = data.split("\n").collect();
+    let rounds: Vec<&str> = data.split('\n').collect();
     let scores: Vec<i32> = rounds
         .iter()
         .filter(|x| !x.is_empty())
         .map(|x| {
-            let parts = x.split(" ").collect::<Vec<&str>>();
+            let parts = x.split(' ').collect::<Vec<&str>>();
             round_score(parts[0], parts[1])
         })
         .collect();
-    println!("{}", scores.iter().sum::<i32>());
+
+    let part1 = scores.iter().sum::<i32>();
 
     let scores: Vec<i32> = rounds
         .iter()
         .filter(|x| !x.is_empty())
         .map(|x| {
-            let parts = x.split(" ").collect::<Vec<&str>>();
+            let parts = x.split(' ').collect::<Vec<&str>>();
             let them = parts[0];
             let us = second_strat(them, parts[1]);
             round_score(them, us)
         })
         .collect();
-    println!("{}", scores.iter().sum::<i32>());
+    let part2 = scores.iter().sum::<i32>();
+    (part1, part2)
 }

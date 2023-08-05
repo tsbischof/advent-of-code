@@ -13,6 +13,14 @@ mod aoc {
     }
 }
 
+fn cast_str<T, U>((val0, val1): (T, U)) -> (String, String)
+where
+    T: std::fmt::Display,
+    U: std::fmt::Display,
+{
+    (val0.to_string(), val1.to_string())
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     let day = &args[1].to_owned()[..];
@@ -23,12 +31,16 @@ fn main() {
         &default_path
     };
 
-    match day {
-        "1" => day1::main(data_path),
-        "2" => day2::main(data_path),
-        "3" => day3::main(data_path),
-        "4" => day4::main(data_path),
-        "5" => day5::main(data_path),
-        _ => println!("could not find day {}", day),
+    let (part1, part2) = match day {
+        "1" => cast_str(day1::main(data_path)),
+        "2" => cast_str(day2::main(data_path)),
+        "3" => cast_str(day3::main(data_path)),
+        "4" => cast_str(day4::main(data_path)),
+        "5" => cast_str(day5::main(data_path)),
+        _ => ("".to_string(), "".to_string()),
+    };
+    if !part1.is_empty() || !part2.is_empty() {
+        println!("{}", part1);
+        println!("{}", part2);
     }
 }

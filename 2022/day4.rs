@@ -1,6 +1,25 @@
 use crate::aoc;
 use itertools::Itertools;
 
+#[cfg(test)]
+mod tests {
+    use crate::day4;
+
+    #[test]
+    fn test_main() {
+        let (part1, part2) = day4::main("day4/input.txt");
+        assert_eq!(part1, 498);
+        assert_eq!(part2, 859);
+    }
+
+    #[test]
+    fn test_main_sample() {
+        let (part1, part2) = day4::main("day4/sample.txt");
+        assert_eq!(part1, 2);
+        assert_eq!(part2, 4);
+    }
+}
+
 #[derive(Debug, PartialEq, Eq)]
 struct Range<T> {
     start: T,
@@ -23,24 +42,21 @@ impl<T: std::cmp::PartialOrd + std::str::FromStr> Range<T> {
     }
 
     fn from_str(text: &str) -> Result<Self, ParsePointError> {
-        let Some((start_raw, stop_raw)) = text.split("-").collect_tuple() else {panic!("could not parse range")};
+        let Some((start_raw, stop_raw)) = text.split('-').collect_tuple() else {panic!("could not parse range")};
         let start = start_raw.parse::<T>().map_err(|_| ParsePointError)?;
         let stop = stop_raw.parse::<T>().map_err(|_| ParsePointError)?;
 
-        Ok(Range {
-            start: start,
-            stop: stop,
-        })
+        Ok(Range { start, stop })
     }
 }
 
-pub fn main(path: &str) {
+pub fn main(path: &str) -> (usize, usize) {
     let data = aoc::load_data(path);
     let pairs : Vec<(Range<u64>, Range<u64>)> = data
-        .split("\n")
+        .split('\n')
         .filter(|x| !x.is_empty())
         .map(|x| {
-            let Some((left_raw, right_raw)) = x.split(",").collect_tuple() else {panic!("could not parse row")};
+            let Some((left_raw, right_raw)) = x.split(',').collect_tuple() else {panic!("could not parse row")};
             let left = Range::<u64>::from_str(left_raw).unwrap();
             let right = Range::<u64>::from_str(right_raw).unwrap();
             (left, right)
@@ -51,8 +67,10 @@ pub fn main(path: &str) {
         .iter()
         .map(|(a, b)| a.within(b) || b.within(a))
         .collect();
-    println!("{}", contained.iter().filter(|b| **b).count());
+    let part1 = contained.iter().filter(|b| **b).count();
 
     let overlapped: Vec<bool> = pairs.iter().map(|(a, b)| a.overlaps(b)).collect();
-    println!("{}", overlapped.iter().filter(|b| **b).count());
+    let part2 = overlapped.iter().filter(|b| **b).count();
+
+    (part1, part2)
 }

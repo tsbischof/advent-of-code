@@ -1,6 +1,25 @@
 use crate::aoc;
 use regex::Regex;
 
+#[cfg(test)]
+mod tests {
+    use crate::day5;
+
+    #[test]
+    fn test_main() {
+        let (part1, part2) = day5::main("day5/input.txt");
+        assert_eq!(part1, "CVCWCRTVQ");
+        assert_eq!(part2, "CNSCZWLVT");
+    }
+
+    #[test]
+    fn test_main_sample() {
+        let (part1, part2) = day5::main("day5/sample.txt");
+        assert_eq!(part1, "CMZ");
+        assert_eq!(part2, "MCD");
+    }
+}
+
 #[derive(Debug)]
 struct Move {
     amount: u8,
@@ -30,9 +49,9 @@ fn rows_to_columns(rows: Vec<Vec<char>>) -> Vec<Vec<char>> {
 
     for column in 0..n_columns {
         v.push(Vec::new());
-        for row in 0..n_rows {
-            if rows[row][column] != ' ' {
-                v[column].push(rows[row][column]);
+        for row in rows.iter().take(n_rows) {
+            if row[column] != ' ' {
+                v[column].push(row[column]);
             }
         }
         v[column].reverse();
@@ -101,16 +120,16 @@ fn apply_move_stack(columns: &mut Vec<Vec<char>>, _move: &Move) {
     }
 }
 
-pub fn main(path: &str) {
+pub fn main(path: &str) -> (String, String) {
     let data = aoc::load_data(path);
     let rows: Vec<Vec<char>> = data
-        .split("\n")
+        .split('\n')
         .filter(|x| !x.is_empty() && x.contains('['))
         .map(parse_row)
         .collect();
     let start_columns: Vec<Vec<char>> = rows_to_columns(rows);
     let moves: Vec<Move> = data
-        .split("\n")
+        .split('\n')
         .filter(|x| x.contains("move"))
         .map(parse_move)
         .collect();
@@ -119,13 +138,12 @@ pub fn main(path: &str) {
     for _move in moves.iter() {
         apply_move(&mut columns, _move);
     }
-    let top: String = tops(columns).iter().map(|x| *x).collect();
-    println!("{}", top);
+    let part1: String = tops(columns).iter().copied().collect();
 
-    let mut columns = start_columns.clone();
+    let mut columns = start_columns;
     for _move in moves.iter() {
         apply_move_stack(&mut columns, _move);
     }
-    let top: String = tops(columns).iter().map(|x| *x).collect();
-    println!("{}", top);
+    let part2: String = tops(columns).iter().copied().collect();
+    (part1, part2)
 }
