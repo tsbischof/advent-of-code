@@ -2,6 +2,7 @@ use itertools::Itertools;
 use std::cmp::Ordering;
 use std::collections::HashSet;
 use std::iter::FromIterator;
+use std::path::PathBuf;
 
 #[cfg(test)]
 mod tests {
@@ -54,7 +55,7 @@ fn priority(elem: char) -> usize {
     alphabet.chars().position(|x| x == elem).unwrap() + 1
 }
 
-pub fn main(path: &str) -> (usize, usize) {
+pub fn main(path: &PathBuf) -> (usize, usize) {
     let data = crate::load_data(path);
     let sacks: Vec<&str> = data.split('\n').collect();
 

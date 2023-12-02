@@ -1,4 +1,5 @@
 use itertools::Itertools;
+use std::path::PathBuf;
 
 #[cfg(test)]
 mod tests {
@@ -49,7 +50,7 @@ impl<T: std::cmp::PartialOrd + std::str::FromStr> Range<T> {
     }
 }
 
-pub fn main(path: &str) -> (usize, usize) {
+pub fn main(path: &PathBuf) -> (usize, usize) {
     let data = crate::load_data(path);
     let pairs : Vec<(Range<u64>, Range<u64>)> = data
         .split('\n')

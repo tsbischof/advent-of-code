@@ -1,5 +1,6 @@
 use iterwindows::IterArrayWindows;
 use std::collections::HashSet;
+use std::path::PathBuf;
 
 #[cfg(test)]
 mod tests {
@@ -58,7 +59,7 @@ fn start_of_packet_marker<const MATCH_LEN: usize>(msg: &str) -> usize {
     position + MATCH_LEN
 }
 
-pub fn main(data_path: &str) -> (usize, usize) {
+pub fn main(data_path: &PathBuf) -> (usize, usize) {
     let data = crate::load_data(data_path);
 
     let part1 = start_of_packet_marker::<4>(&data);

@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 #[cfg(test)]
 mod tests {
     use crate::aoc2022::day1;
@@ -10,7 +12,7 @@ mod tests {
     }
 }
 
-pub fn main(data_path: &str) -> (u64, u64) {
+pub fn main(data_path: &PathBuf) -> (u64, u64) {
     let data = crate::load_data(data_path);
     let elves = data.split("\n\n");
     let mut totals: Vec<u64> = elves

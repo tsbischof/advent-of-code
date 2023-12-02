@@ -1,4 +1,5 @@
 use regex::Regex;
+use std::path::PathBuf;
 
 #[cfg(test)]
 mod tests {
@@ -119,7 +120,7 @@ fn apply_move_stack(columns: &mut Vec<Vec<char>>, _move: &Move) {
     }
 }
 
-pub fn main(path: &str) -> (String, String) {
+pub fn main(path: &PathBuf) -> (String, String) {
     let data = crate::load_data(path);
     let rows: Vec<Vec<char>> = data
         .split('\n')

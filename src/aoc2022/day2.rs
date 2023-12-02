@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 #[cfg(test)]
 mod tests {
     use crate::aoc2022::day2;
@@ -65,7 +67,7 @@ fn second_strat<'a>(them: &'a str, us: &str) -> &'a str {
     }
 }
 
-pub fn main(path: &str) -> (i32, i32) {
+pub fn main(path: &PathBuf) -> (i32, i32) {
     let data = crate::load_data(path);
     let rounds: Vec<&str> = data.split('\n').collect();
     let scores: Vec<i32> = rounds
