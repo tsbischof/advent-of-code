@@ -66,6 +66,7 @@ fn main() {
         //       ("2022", "7") => display_parts(aoc2022::day6::main(data_path)),
         (2023, 1) => display_parts(aoc2023::day1::main(&data_path)),
         (2023, 2) => display_parts(aoc2023::day2::main(&data_path)),
+        (2023, 3) => display_parts(aoc2023::day3::main(&data_path)),
         _ => println!("could not find year {} day {}", year, day),
     };
 }
