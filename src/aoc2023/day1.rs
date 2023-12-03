@@ -77,7 +77,7 @@ fn first_last_digit_word(text: &str) -> [String; 2] {
 
 pub fn main(data_path: &PathBuf) -> (u64, u64) {
     let data = crate::load_data(data_path);
-    let readings = data.split('\n');
+    let readings = data.split('\n').filter(|x| !x.is_empty());
     let digits: Vec<[&str; 2]> = readings
         .clone()
         .map(first_last_digit)
@@ -88,11 +88,7 @@ pub fn main(data_path: &PathBuf) -> (u64, u64) {
         .map(|s| s[0].parse::<u32>().unwrap() * 10 + s[1].parse::<u32>().unwrap())
         .collect();
 
-    let words: Vec<[String; 2]> = readings
-        .clone()
-        .map(first_last_digit_word)
-        .filter(|m| m[0].is_empty())
-        .collect();
+    let words: Vec<[String; 2]> = readings.clone().map(first_last_digit_word).collect();
     let word_values: Vec<u32> = words
         .iter()
         .map(|s| word_to_digit(s[0].as_str()).unwrap() * 10 + word_to_digit(s[1].as_str()).unwrap())
