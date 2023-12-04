@@ -13,7 +13,7 @@ mod tests {
     }
 
     #[test]
-    fn test_sample() {
+    fn test_main_sample() {
         let (part1, part2) = day3::main(&crate::sample_path(2023, 3));
         assert_eq!(part1, 4361);
         assert_eq!(part2, 467835);
